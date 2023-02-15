@@ -9,19 +9,20 @@ function App() {
     if (toDo === "") {
       return;
     }
-    setToDos([...toDos, toDo]);
+    setToDos([toDo, ...toDos]);
     setToDo("");
   };
+
+  const onDelete = (e) => {
+    const newToDos = toDos.filter((value, index) => index !== parseInt(e.target.value));
+    setToDos(newToDos);
+  };
+
   return (
     <div>
       <h2>My To Dos ({toDos.length})</h2>
       <form onSubmit={onSubmit}>
-        <input
-          onChange={onChange}
-          value={toDo}
-          type="text"
-          placeholder="Write your to do ..."
-        />
+        <input onChange={onChange} value={toDo} type="text" placeholder="Write your to do ..." />
         <button>Add To Do </button>
       </form>
       <hr />
@@ -29,7 +30,9 @@ function App() {
         {toDos.map((item, index) => (
           <li key={index}>
             {item}{" "}
-            <button onClick={() => toDos.splice(index, 1)}>delete</button>
+            <button value={index} onClick={onDelete}>
+              delete
+            </button>
           </li>
         ))}
       </ul>
